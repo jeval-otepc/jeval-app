@@ -321,10 +321,7 @@ export const PDFReport = forwardRef<HTMLDivElement, PDFReportProps>(
                             <tr>
                                 <td>1. การประเมินค่างาน</td>
                                 <td className="center bold">
-                                    {resultData.totalScore &&
-                                    resultData.totalScore >= 650
-                                        ? 'ผ่าน'
-                                        : 'ไม่ผ่าน'}
+                                    {resultData.ResultScore ? 'ผ่าน' : 'ไม่ผ่าน'}
                                 </td>
                             </tr>
                             <tr>

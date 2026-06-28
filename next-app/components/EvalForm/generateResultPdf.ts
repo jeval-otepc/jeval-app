@@ -74,7 +74,6 @@ interface Cell {
 export async function generateResultPdf(
     resultData: ResultData,
     getPositionTypeName: (typeId: string) => string,
-    passThreshold: number,
 ): Promise<void> {
     const { jsPDF } = await import('jspdf');
     const [regular, bold] = await Promise.all([
@@ -247,7 +246,8 @@ export async function generateResultPdf(
     y += 6;
 
     // ---- Table 2: verdicts -------------------------------------------------
-    const passed = !!resultData.totalScore && resultData.totalScore >= passThreshold;
+    // ผ่าน/ไม่ผ่านค่าคะแนน = ResultScore จาก backend (คิดจากช่วง min–max ตาม TypePos)
+    const passed = !!resultData.ResultScore;
     const summaryPass = !!resultData.ResultSummary;
     y = drawTable(y, contentW * 0.72, ['ผลการประเมิน', 'ระดับการประเมิน'], [
         [

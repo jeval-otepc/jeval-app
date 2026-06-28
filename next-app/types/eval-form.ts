@@ -19,6 +19,7 @@ export interface ResultData {
     psScoreConvt: number; 
     acScoreConvt: number;
     totalScore: number;
+    ResultScore: boolean; // ผ่านค่าคะแนน: total อยู่ในช่วง min–max ตาม TypePos
     ResultSummary: boolean;
 }
 

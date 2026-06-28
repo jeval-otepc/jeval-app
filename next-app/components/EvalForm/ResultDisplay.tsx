@@ -10,12 +10,8 @@ import { PDFReport } from './PDFReport';
 import { EvalStepper } from './EvalStepper';
 import { EvalHero } from './EvalHero';
 
-/**
- * คะแนนรวมขั้นต่ำที่ถือว่า "ผ่าน" การประเมินค่างาน ตามเกณฑ์ ก.ค.ศ.
- * แยกเป็นค่าคงที่ที่มีชื่อเพื่อไม่ให้เป็นเลขลอยในเทมเพลต และแก้ได้ที่จุดเดียว
- * TODO: ในระยะถัดไปควรรับเกณฑ์นี้มาจาก backend/config แทนการกำหนดในหน้าจอ
- */
-const PASS_SCORE_THRESHOLD = 650;
+// ผ่าน/ไม่ผ่านการประเมินค่าคะแนน ใช้ผลจาก backend (ResultScore) ซึ่งคิดจากช่วง
+// min–max ตามประเภทตำแหน่ง (TypePos) — ไม่ใช้เกณฑ์ตายตัวในหน้าจอแล้ว
 
 export function ResultDisplay() {
     const { resultData, resetForm } = useEvalForm();
@@ -60,11 +56,7 @@ export function ResultDisplay() {
         setIsDownloading(true);
         try {
             const { generateResultPdf } = await import('./generateResultPdf');
-            await generateResultPdf(
-                resultData,
-                getPositionTypeName,
-                PASS_SCORE_THRESHOLD,
-            );
+            await generateResultPdf(resultData, getPositionTypeName);
         } catch (error) {
             console.error('Error generating PDF:', error);
             alert('เกิดข้อผิดพลาดในการสร้าง PDF กรุณาลองอีกครั้ง');
@@ -223,10 +215,7 @@ export function ResultDisplay() {
                                     1. การประเมินค่างาน
                                 </td>
                                 <td className="border border-gray-300 px-4 py-3 text-center font-semibold text-gray-900">
-                                    {resultData.totalScore &&
-                                    resultData.totalScore >= PASS_SCORE_THRESHOLD
-                                        ? 'ผ่าน'
-                                        : 'ไม่ผ่าน'}
+                                    {resultData.ResultScore ? 'ผ่าน' : 'ไม่ผ่าน'}
                                 </td>
                             </tr>
                             <tr>
