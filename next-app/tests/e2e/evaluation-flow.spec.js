@@ -6,8 +6,8 @@ const { test, expect } = require('@playwright/test');
 // Test configuration
 const BASE_URL = process.env.BASE_URL || 'https://jeval.otepc.go.th';
 const TEST_CREDENTIALS = {
-    email: process.env.TEST_USER_EMAIL || 'admin@otepc.mail.go.th',
-    password: process.env.TEST_USER_PASSWORD || 'Admin@@#'
+    email: process.env.TEST_USER_EMAIL || 'test@example.com',
+    password: process.env.TEST_USER_PASSWORD || 'password123'
 };
 
 test.describe('Evaluation Form E2E Tests', () => {

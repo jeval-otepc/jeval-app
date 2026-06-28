@@ -17,8 +17,8 @@ const config = {
 };
 
 const credentials = {
-  identifier: 'admin@otepc.mail.go.th',
-  password: 'Admin@@#'
+  identifier: 'test@example.com',
+  password: 'password123'
 };
 
 console.log('🧪 JEVAL Authentication Test');

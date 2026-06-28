@@ -29,8 +29,8 @@ export interface AuthTestResults {
 
 export class AuthTestService {
   private static testCredentials: LoginCredentials = {
-    identifier: "adminit",
-    password: "admin@@#"
+    identifier: process.env.TEST_USER_EMAIL || "test@example.com",
+    password: process.env.TEST_USER_PASSWORD || "password123"
   };
 
   static async runAllTests(): Promise<AuthTestResults> {

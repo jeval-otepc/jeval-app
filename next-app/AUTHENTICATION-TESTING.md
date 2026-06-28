@@ -44,8 +44,8 @@ yarn add -D jest node-fetch @playwright/test
 
 ```bash
 # Set test credentials (optional - defaults provided)
-export TEST_USER_EMAIL="admin@otepc.mail.go.th"
-export TEST_USER_PASSWORD="Admin@@#"
+export TEST_USER_EMAIL="test@example.com"
+export TEST_USER_PASSWORD="password123"
 ```
 
 ### 3. Run Tests
@@ -103,15 +103,15 @@ node scripts/run-auth-tests.js --all
 ### Production Environment
 - **Frontend URL**: `https://jeval.otepc.go.th`
 - **Strapi API**: `https://jeval.otepc.go.th/admin/api`
-- **Test User**: `admin@otepc.mail.go.th`
+- **Test User**: `test@example.com`
 - **Protocol**: HTTPS with SSL verification
 
 ### Test Credentials
 
 ```bash
 # Default test credentials
-identifier: "admin@otepc.mail.go.th"
-password: "Admin@@#"
+identifier: "test@example.com"
+password: "password123"
 
 # Override with environment variables
 TEST_USER_EMAIL="your-test-user@email.com"
@@ -130,8 +130,8 @@ const response = await fetch('https://jeval.otepc.go.th/admin/api/auth/local', {
     'Content-Type': 'application/json; charset=utf-8'
   },
   body: JSON.stringify({
-    identifier: 'admin@otepc.mail.go.th',
-    password: 'Admin@@#'
+    identifier: 'test@example.com',
+    password: 'password123'
   })
 });
 
@@ -140,7 +140,7 @@ const response = await fetch('https://jeval.otepc.go.th/admin/api/auth/local', {
   "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "user": {
     "id": 1,
-    "email": "admin@otepc.mail.go.th",
+    "email": "test@example.com",
     "username": "admin",
     "role": {
       "name": "Administrator"
@@ -170,8 +170,8 @@ const response = await fetch('https://jeval.otepc.go.th/admin/api/users/me', {
 ```javascript
 // Navigate and login
 await page.goto('https://jeval.otepc.go.th/login');
-await page.fill('input[type="email"]', 'admin@otepc.mail.go.th');
-await page.fill('input[type="password"]', 'Admin@@#');
+await page.fill('input[type="email"]', 'test@example.com');
+await page.fill('input[type="password"]', 'password123');
 await page.click('button[type="submit"]');
 
 // Verify successful login
@@ -187,7 +187,7 @@ await expect(page.locator('text=Dashboard')).toBeVisible();
 📈 Status Code: 200
 🔑 JWT Token Length: 255
 👤 User ID: 1
-📧 User Email: admin@otepc.mail.go.th
+📧 User Email: test@example.com
 🔐 User Role: Administrator
 ```
 
@@ -204,7 +204,7 @@ await expect(page.locator('text=Dashboard')).toBeVisible();
 📈 /users/me Status: 200
 ✅ User data retrieved successfully
 👤 User ID: 1
-📧 Email: admin@otepc.mail.go.th
+📧 Email: test@example.com
 ```
 
 ## Troubleshooting
@@ -312,8 +312,8 @@ jobs:
 ```bash
 # Run tests in Docker container
 docker run -it --rm \
-  -e TEST_USER_EMAIL="admin@otepc.mail.go.th" \
-  -e TEST_USER_PASSWORD="Admin@@#" \
+  -e TEST_USER_EMAIL="test@example.com" \
+  -e TEST_USER_PASSWORD="password123" \
   node:18-alpine \
   npm run test:auth
 ```

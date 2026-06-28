@@ -11,8 +11,8 @@ async function testFrontendThaiEncoding() {
         'Content-Type': 'application/json; charset=utf-8',
       },
       body: JSON.stringify({
-        identifier: 'admin@otepc.mail.go.th',
-        password: 'admin@@#'
+        identifier: 'test@example.com',
+        password: 'password123'
       }),
     });
 

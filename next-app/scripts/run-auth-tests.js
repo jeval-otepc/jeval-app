@@ -10,8 +10,8 @@ const path = require('path');
 const config = {
   STRAPI_API_BASE: 'https://jeval.otepc.go.th/api',
   FRONTEND_BASE: 'https://jeval.otepc.go.th',
-  TEST_USER: process.env.TEST_USER_EMAIL || 'admin@otepc.mail.go.th',
-  TEST_PASSWORD: process.env.TEST_USER_PASSWORD || 'Admin@@#'
+  TEST_USER: process.env.TEST_USER_EMAIL || 'test@example.com',
+  TEST_PASSWORD: process.env.TEST_USER_PASSWORD || 'password123'
 };
 
 console.log('🧪 JEVAL Authentication Test Suite');
@@ -184,8 +184,8 @@ async function main() {
     console.log('  -a, --all        Run all tests');
     console.log('');
     console.log('Environment Variables:');
-    console.log('  TEST_USER_EMAIL     Test user email (default: admin@otepc.mail.go.th)');
-    console.log('  TEST_USER_PASSWORD  Test user password (default: Admin@@#)');
+    console.log('  TEST_USER_EMAIL     Test user email (default: test@example.com)');
+    console.log('  TEST_USER_PASSWORD  Test user password (default: password123)');
     console.log('');
     console.log('Examples:');
     console.log('  node scripts/run-auth-tests.js --quick');

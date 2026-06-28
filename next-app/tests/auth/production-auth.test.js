@@ -9,8 +9,8 @@ describe('Production Authentication Tests', () => {
 
   // Test credentials (should be stored in environment variables)
   const TEST_CREDENTIALS = {
-    identifier: process.env.TEST_USER_EMAIL || 'admin@otepc.mail.go.th',
-    password: process.env.TEST_USER_PASSWORD || 'Admin@@#'
+    identifier: process.env.TEST_USER_EMAIL || 'test@example.com',
+    password: process.env.TEST_USER_PASSWORD || 'password123'
   };
 
   beforeAll(() => {
@@ -188,7 +188,7 @@ async function runProductionAuthTests() {
   console.log('🧪 Starting Production Authentication Tests...');
   console.log('🌐 Testing against:', 'https://jeval.otepc.go.th');
   console.log('🔑 Testing Strapi API:', 'https://jeval.otepc.go.th/api');
-  console.log('👤 Test user:', process.env.TEST_USER_EMAIL || 'admin@otepc.mail.go.th');
+  console.log('👤 Test user:', process.env.TEST_USER_EMAIL || 'test@example.com');
   console.log('');
 }
 

@@ -9,8 +9,8 @@ describe('Strapi API Authentication Tests', () => {
 
   // Test credentials from environment or default
   const TEST_CREDENTIALS = {
-    identifier: process.env.TEST_USER_EMAIL || 'admin@otepc.mail.go.th',
-    password: process.env.TEST_USER_PASSWORD || 'Admin@@#'
+    identifier: process.env.TEST_USER_EMAIL || 'test@example.com',
+    password: process.env.TEST_USER_PASSWORD || 'password123'
   };
 
   let authToken = null;
