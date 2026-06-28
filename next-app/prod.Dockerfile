@@ -1,0 +1,79 @@
+# Multi-stage Dockerfile for Production
+# Build stage
+FROM node:20-alpine AS base
+
+# Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat wget
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files from next-app directory
+COPY next-app/package.json next-app/package-lock.json* ./
+
+# Install dependencies
+RUN npm ci --only=production && npm cache clean --force
+
+# Build stage
+FROM base AS builder
+WORKDIR /app
+
+# Copy dependencies from deps stage
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copy source code from next-app directory
+COPY next-app/ ./
+
+# Copy production environment file if exists
+COPY .env.production* ./
+
+# Install all dependencies for build (including devDependencies)
+RUN npm ci
+
+# Build the application
+RUN npm run build
+
+# Production stage
+FROM base AS runner
+
+WORKDIR /app
+
+# Install dumb-init for proper signal handling and wget for health checks
+RUN apk add --no-cache dumb-init wget
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copy production dependencies
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
+
+# Copy built application from builder stage
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+
+# Copy production environment file if exists
+COPY --chown=nextjs:nodejs .env.production* ./
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+
+# Expose port
+EXPOSE 3000
+
+# Switch to non-root user
+USER nextjs
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
+
+# Start the application
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["node", "server.js"]

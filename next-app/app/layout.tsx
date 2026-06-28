@@ -1,0 +1,48 @@
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono, Noto_Sans_Thai } from 'next/font/google';
+import { Providers } from './providers';
+import NotificationContainer from '@/components/NotificationContainer';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import './globals.css';
+
+const geistSans = Geist({
+    variable: '--font-geist-sans',
+    subsets: ['latin'],
+});
+
+const geistMono = Geist_Mono({
+    variable: '--font-geist-mono',
+    subsets: ['latin'],
+});
+
+const notoSansThai = Noto_Sans_Thai({
+    variable: '--font-noto-sans-thai',
+    subsets: ['thai', 'latin'],
+    weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+});
+
+export const metadata: Metadata = {
+    title: 'JEVAL - ระบบประเมินค่างาน',
+    description: 'ระบบประเมินและจัดการข้อมูล OTEPC',
+};
+
+export default function RootLayout({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
+    return (
+        <html lang="th">
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} ${notoSansThai.variable} antialiased`}
+            >
+                <ErrorBoundary>
+                    <Providers>
+                        {children}
+                        <NotificationContainer />
+                    </Providers>
+                </ErrorBoundary>
+            </body>
+        </html>
+    );
+}

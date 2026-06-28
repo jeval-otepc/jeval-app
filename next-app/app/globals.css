@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Single brand color — used for every primary action, the header band,
+     and active states. One hue keeps the government identity consistent;
+     green/red are reserved strictly for ผ่าน/ไม่ผ่าน semantics. */
+  --brand: #4338ca;        /* indigo-700 */
+  --brand-strong: #3730a3; /* indigo-800, hover */
+  --brand-on: #ffffff;     /* text on brand */
+
+  /* Visible-focus ring — used for every interactive element */
+  --focus-ring: var(--brand);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-noto-sans-thai);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-noto-sans-thai), sans-serif;
+}
+
+/* Pointer affordance only — no global transforms or shadows.
+   Government tool: quiet by default, motion stays purposeful and local. */
+button,
+[role="button"],
+.btn,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+/* Single, consistent keyboard-focus indicator across the whole app.
+   Mouse clicks stay clean (:focus-visible, not :focus). WCAG 2.4.7. */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Disabled state */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled,
+[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Loading spinner used by .loading helper */
+.loading {
+  pointer-events: none;
+  position: relative;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -10px;
+  margin-top: -10px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respect users who ask for less motion — required by PRODUCT.md
+   (audience skews middle-aged to elderly). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

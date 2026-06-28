@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  jeval-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: jeval-app
+    # Port exposed internally to proxy only
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+    env_file:
+      - next-app/.env.production
+    networks:
+      - jeval-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    volumes:
+      # Mount logs directory for application logs (optional)
+      - ./logs:/app/logs:rw
+      # Mount uploads directory for file uploads (optional)
+      - ./uploads:/app/public/uploads:rw
+    labels:
+      - "com.docker.compose.project=jeval"
+      - "com.docker.compose.service=jeval-app"
+      - "jeval.service=app"
+      - "jeval.port=3000"
+
+
+
+volumes:
+  # Volume for application logs (optional)
+  jeval_logs:
+    driver: local
+    name: jeval_logs_prod
+  # Volume for file uploads (optional)
+  jeval_uploads:
+    driver: local
+    name: jeval_uploads_prod
+
+networks:
+  jeval-network:
+    external: true
